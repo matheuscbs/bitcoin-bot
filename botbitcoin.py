@@ -2,12 +2,18 @@ import ssl
 import json
 
 import websocket
+import bitstamp.client
 
-def buy():
-  pass
+def cliente():
+  return bitstamp.client.Trading(username='999999', key='xxx', secret='xxx')
+  
+def buy(quantidade):
+  trading_client = cliente()
+  trading_client.buy_market_order(quantidade)
 
-def sell():
-  pass
+def sell(quantidade):
+  trading_client = cliente()
+  trading_client.sell_market_order(quantidade)
 
 def on_open(ws):
   print("Abriu a conexão")
@@ -33,10 +39,10 @@ def on_message(ws, message):
   message = json.loads(message)
   price = message['data']['price']
   
-  if buy > 59000:
-    vender()
+  if price > 59000:
+    buy()
   elif price < 58100:
-    comprar()
+    sell()
   else:
     print("Aguardar")
 
